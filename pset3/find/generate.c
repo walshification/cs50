@@ -24,17 +24,19 @@
 
 int main(int argc, string argv[])
 {
-    // TODO: comment me
+    // checks if the program was called with the right number of arguments
     if (argc != 2 && argc != 3)
     {
         printf("Usage: generate n [s]\n");
         return 1;
     }
 
-    // TODO: comment me
+    // converts the first arg to an int
     int n = atoi(argv[1]);
 
-    // TODO: comment me
+    // if the optional argument is present, uses it to create the random number
+    // otherwise, uses the number of seconds since 00:00:00 UTC, January 1, 1970
+    // as the seed.
     if (argc == 3)
     {
         srand48((long int) atoi(argv[2]));
@@ -44,7 +46,8 @@ int main(int argc, string argv[])
         srand48((long int) time(NULL));
     }
 
-    // TODO: comment me
+    // prints a random number a number of times equal to the limit n from the user
+    // it also casts the number as an int to eliminate decimals
     for (int i = 0; i < n; i++)
     {
         printf("%i\n", (int) (drand48() * LIMIT));
