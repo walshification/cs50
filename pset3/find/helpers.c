@@ -16,7 +16,7 @@
  */
 bool search(int value, int values[], int n)
 {
-    if (atoi(value) < 0)
+    if (value < 0)
     {
         return false;
     }
@@ -39,6 +39,34 @@ bool search(int value, int values[], int n)
  */
 void sort(int values[], int n)
 {
-    // TODO: implement an O(n^2) sorting algorithm
+    // bubble sort
+    bool unchanged = true;
+    int unsorted_length = n - 1;
+
+    for (int i = 0, worst_case = unsorted_length; i < worst_case; ++i)
+    {
+        unchanged = true;
+
+        for (int j = 0; j < unsorted_length; ++j)
+        {
+            int initial = values[j];
+            int next = values[j + 1];
+
+            if (initial > next)
+            {
+                values[j] = next;
+                values[j + 1] = initial;
+                unchanged = false;  // values changed position!
+            }
+        }
+
+        if (unchanged)
+        {
+            // not changing any value positions means they're sorted
+            return;
+        }
+        // We can trust the last value is sorted
+        --unsorted_length;
+    }
     return;
 }
