@@ -220,7 +220,48 @@ void draw(void)
  */
 bool move(int tile)
 {
-    // TODO
+    // find the tile
+    int tileX;
+    int tileY;
+
+    for (int i = 0; i < d; ++i)
+    {
+        for (int j = 0; j < d; ++j)
+        {
+            if (tile == board[i][j])
+            {
+                tileX = j;
+                tileY = i;
+            }
+        }
+    }
+
+    // identify the bordering tiles and check if they are inside the board and/or empty
+    if (tileY > 0 && board[tileY - 1][tileX] == 0)  // north
+    {
+        board[tileY - 1][tileX] = tile;
+        board[tileY][tileX] = 0;
+        return true;
+    }
+    if (tileX < d - 1 && board[tileY][tileX + 1] == 0)  // east
+    {
+        board[tileY][tileX + 1] = tile;
+        board[tileY][tileX] = 0;
+        return true;
+    }
+    if (tileY < d - 1 && board[tileY + 1][tileX] == 0)  // south
+    {
+        board[tileY + 1][tileX] = tile;
+        board[tileY][tileX] = 0;
+        return true;
+    }
+    if (tileX > 0 && board[tileY][tileX - 1] == 0)  // west
+    {
+        board[tileY][tileX - 1] = tile;
+        board[tileY][tileX] = 0;
+        return true;
+    }
+    // no empty neighbors
     return false;
 }
 
