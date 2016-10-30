@@ -11,6 +11,47 @@
 
 #include "helpers.h"
 
+int linearSearch(int value, int values[], int n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        if (value == values[i])
+        {
+            return value;
+        }
+    }
+
+    // nothing found.
+    return -1;
+}
+
+int binarySearch(int value, int values[], int min, int max)
+{
+    if (max < min)
+    {
+        return -1;
+    }
+
+    int middle = ((max - min) / 2) + min;
+
+    if (value > values[middle])
+    {
+        min = middle + 1;
+    }
+    else
+    {
+        if (value < values[middle])
+        {
+            max = middle - 1;
+        }
+        else
+        {
+            return values[middle];
+        }
+    }
+    return binarySearch(value, values, min, max);
+}
+
 /**
  * Returns true if value is in array of n values, else false.
  */
@@ -21,17 +62,9 @@ bool search(int value, int values[], int n)
         return false;
     }
 
-    // Linear search
-    for (int i = 0; i < n; ++i)
-    {
-        if (value == values[i])
-        {
-            return true;
-        }
-    }
+    int result = binarySearch(value, values, 0, n);
 
-    // nothing found.
-    return false;
+    return value == result;
 }
 
 /**
