@@ -159,7 +159,36 @@ void greet(void)
  */
 void init(void)
 {
-    // TODO
+    int place = d * d - 1;
+    for (int i = 0; i < d; ++i)
+    {
+        for (int j = 0; j < d; ++j)
+        {
+            if (place > 2 || d % 2 != 0)
+            {
+                board[i][j] = place;
+            }
+            else
+            {
+                if (place == 2)
+                {
+                    board[i][j] = 1;
+                }
+                else
+                {
+                    if (place == 1)
+                    {
+                        board[i][j] = 2;
+                    }
+                    else
+                    {
+                        board[i][j] = place;
+                    }
+                }
+            }
+            --place;
+        }
+    }
 }
 
 /**
