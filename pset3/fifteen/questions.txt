@@ -3,7 +3,7 @@ questions.txt
 Computer Science 50
 Problem Set 3
 
-0. TODO
-1. TODO
-2. TODO
-3. TODO
+0. The game allows dimensions from 3x3 up to 9x9.
+1. The gameboard is represented by a two-dimenional array, where each row is an array within the outer array.
+2. The name of the function that greets players is, coincidentally enough, greet.
+3. The functions missing implementations are init, draw, move, and won.
