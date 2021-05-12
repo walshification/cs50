@@ -1,0 +1,11 @@
+sort1 uses: bubble sort
+
+How do you know?: Bubble sort performs much better on a sorted list than an unsorted one, and the timings for this program bears that out. Sorting the reversed 50,000 file took 0m4.678s, just an agonizing amount of time; while sorting the sorted 50,000 file took 0m0.697s, almost no time at all.
+
+sort2 uses: merge sort
+
+How do you know?: Merge sort is incredibly efficient when sorting a reversed list and also consistent in that efficiency when the list is already sorted. The timings for this program illustrate that. Sorting the reversed 50,000 file took 0m0.768s, only a little longer than sort1's best case; while sorting the sorted 50,000 file took 0m0.927s, practically the same amount of time.
+
+sort3 uses: selection sort
+
+How do you know?: Selection sort can't catch any breaks. It is sadly inefficient even when it is working on a sorted list. This program sorted the reversed 50,000 file in 0m2.273s, not terribly impressive but better than sort1; however, it took basically the same amount of time to sort the sorted 50,000, 0m2.078s, which is sad indeed.
