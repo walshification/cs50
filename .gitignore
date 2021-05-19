@@ -1,3 +1,14 @@
+# Ignore binaries!
+# First ignore all
+*
+# Then unignore all files with extensions
+!*.*
+# Then unignore all dirs
+!*/
+# Add filtes that don't have extensions and aren't binaries.
+!Makefile
+!Pipfile
+
 .vscode
 *.wav
 *.zip
