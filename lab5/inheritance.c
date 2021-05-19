@@ -1,4 +1,11 @@
-// Simulate genetic inheritance of blood type
+/** Lab 5: Inheritence
+ * -------------------
+ * Simulate genetic inheritance of blood type.
+ *
+ * Implement inheritance.c to create a family of a given generation
+ * size and assign blood type alleles to each member. Assign alleles
+ * randomly to the oldest generation.
+ */
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -39,36 +46,63 @@ int main(void)
 // Create a new individual with `generations`
 person *create_family(int generations)
 {
-    // TODO: Allocate memory for new person
+    // Allocate memory for new person
+    person *p = malloc(sizeof(person));
+    if (p == NULL)
+    {
+        exit(1);
+    }
 
     // Generation with parent data
     if (generations > 1)
     {
-        // TODO: Recursively create blood type histories for parents
+        // Recursively create blood type histories for parents
+        for (int i = 0; i < 2; ++i)
+        {
+            p->parents[i] = create_family(generations - 1);
+        }
 
-        // TODO: Randomly assign child alleles based on parents
+        // Randomly assign child alleles based on parents
+        for (int i = 0; i < 2; ++i)
+        {
+            p->alleles[i] = p->parents[i]->alleles[rand() % 2];
+        }
     }
 
     // Generation without parent data
     else
     {
-        // TODO: Set parent pointers to NULL
+        for (int i = 0; i < 2; i++)
+        {
+            // Set parent pointers to NULL
+            p->parents[i] = NULL;
 
-        // TODO: Randomly assign alleles
+            // Randomly assign alleles
+            p->alleles[i] = random_allele();
+        }
     }
 
-    // TODO: Return newly created person
-    return NULL;
+    // Return newly created person
+    return p;
 }
 
 // Free `p` and all ancestors of `p`.
 void free_family(person *p)
 {
-    // TODO: Handle base case
+    // Handle base case
+    if (p == NULL)
+    {
+        return;
+    }
 
-    // TODO: Free parents
+    // Free parents
+    for (int i = 0; i < 2; ++i)
+    {
+        free_family(p->parents[i]);
+    }
 
-    // TODO: Free child
+    // Free child
+    free(p);
 }
 
 // Print each family member and their alleles.
