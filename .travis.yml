@@ -1,0 +1,14 @@
+language: python
+python:
+  - '3.9.5'
+sudo: false
+
+branches:
+  only:
+    - main
+
+install:
+  - make deps
+
+script:
+  - make all
