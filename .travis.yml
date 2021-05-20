@@ -11,7 +11,6 @@ branches:
 before_install:
   - sudo apt install clang
   - sudo add-apt-repository ppa:cs50/ppa -y
-  - sudo apt-get install astyle=3.0.1
 addons:
   apt:
     packages:
@@ -22,4 +21,4 @@ install:
   - make deps
 
 script:
-  - make all
+  - make test
