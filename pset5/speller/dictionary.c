@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <ctype.h>
 
 #include "dictionary.h"
 
@@ -50,7 +51,7 @@ unsigned int hash(const char *word)
     unsigned long hash = 5381;
     int c = 0;
 
-    while (c == *word++)
+    while ((c = tolower(*word++)))
     {
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
     }
