@@ -26,6 +26,7 @@ test:
 	cd lab3 && pipenv run check50 --local cs50/labs/2021/x/sort
 	cd lab4 && pipenv run check50 --local cs50/labs/2021/x/volume
 	cd lab5 && pipenv run check50 --local cs50/labs/2021/x/inheritance
+	cd lab6 && pipenv run check50 --local cs50/labs/2021/x/worldcup
 
 	cd pset1/mario && pipenv run check50 --local cs50/problems/2021/x/mario/more
 	cd pset1/credit && pipenv run check50 --local cs50/problems/2021/x/credit
