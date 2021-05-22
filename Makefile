@@ -14,7 +14,7 @@ export CFLAGS += -ggdb3 \
 	-lm
 export VPATH = $(wildcard **/**)
 
-.PHONY = deps test lint all
+.PHONY = deps test lint all ci-test
 
 all: lint test
 
@@ -35,6 +35,7 @@ test:
 	cd pset3/tideman && pipenv run check50 --local cs50/problems/2021/x/tideman
 	cd pset4/filter && pipenv run check50 --local cs50/problems/2021/x/filter/more
 	cd pset4/recover && pipenv run check50 --local cs50/problems/2021/x/recover
+	cd pset5/speller && pipenv run check50 --local cs50/problems/2021/x/speller
 
 lint:
 	pipenv run style50 lab1/hello/hello.c
@@ -51,6 +52,26 @@ lint:
 	pipenv run style50 pset3/tideman/tideman.c
 	pipenv run style50 pset4/filter/helpers.c
 	pipenv run style50 pset4/recover/recover.c
+	pipenv run style50 pset5/speller/dictionary.c
+
+ci-test:
+	cd lab1/hello && check50 --local cs50/problems/2021/x/hello
+	cd lab1/population && check50 --local cs50/labs/2021/x/population
+	cd lab2/scrabble && check50 --local cs50/labs/2021/x/scrabble
+	cd lab5 && check50 --local cs50/labs/2021/x/inheritance
+	cd lab3 && check50 --local cs50/labs/2021/x/sort
+	cd lab4 && check50 --local cs50/labs/2021/x/volume
+	cd lab5 && check50 --local cs50/labs/2021/x/inheritance
+
+	cd pset1/mario && check50 --local cs50/problems/2021/x/mario/more
+	cd pset1/credit && check50 --local cs50/problems/2021/x/credit
+	cd pset2/readability && check50 --local cs50/problems/2021/x/readability
+	cd pset2/substitution && check50 --local cs50/problems/2021/x/substitution
+	cd pset3/plurality && check50 --local cs50/problems/2021/x/plurality
+	cd pset3/tideman && check50 --local cs50/problems/2021/x/tideman
+	cd pset4/filter && check50 --local cs50/problems/2021/x/filter/more
+	cd pset4/recover && check50 --local cs50/problems/2021/x/recover
+	cd pset5/speller && check50 --local cs50/problems/2021/x/speller
 
 hello:
 	make lab1/hello/hello
