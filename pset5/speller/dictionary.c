@@ -4,8 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #include "dictionary.h"
+
+int word_count = 0;
 
 // Represents a node in a hash table
 typedef struct node
@@ -15,7 +18,7 @@ typedef struct node
 } node;
 
 // Number of buckets in hash table
-const unsigned int N = 1;
+const unsigned int N = 100000;
 
 // Hash table
 node *table[N];
@@ -23,15 +26,36 @@ node *table[N];
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
-    // TODO
+    // hash word
+    int index = hash(word);
+    // Access linked list at the hashed index
+    node *cursor = table[index];
+    while (cursor != NULL)
+    {
+        // Traverse the linked list looking for the word (strcasecmp)
+        if (strcasecmp(cursor->word, word) == 0)
+        {
+            return true;
+        }
+        cursor = cursor->next;
+    }
     return false;
 }
 
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
-    // TODO
-    return 0;
+    // Purloined from "djb2" here: http://www.cse.yorku.ca/~oz/hash.html
+    // Created by Dan Bernstein.
+    unsigned long hash = 5381;
+    int c = 0;
+
+    while (c == *word++)
+    {
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+    }
+
+    return hash % N;
 }
 
 // Loads dictionary into memory, returning true if successful, else false
@@ -44,7 +68,7 @@ bool load(const char *dictionary)
         return false;
     }
     // Read dictionary words into nodes.
-    char value[LENGTH];
+    char value[LENGTH + 1];
     while (fscanf(file, "%s", value) != EOF)
     {
         node *n = malloc(sizeof(node));
@@ -70,20 +94,30 @@ bool load(const char *dictionary)
             // Slot in the new node.
             table[index] = n;
         }
+        word_count++;
     }
-    return false;
+    fclose(file);
+    return true;
 }
 
 // Returns number of words in dictionary if loaded, else 0 if not yet loaded
 unsigned int size(void)
 {
-    // TODO
-    return 0;
+    return word_count;
 }
 
 // Unloads dictionary from memory, returning true if successful, else false
 bool unload(void)
 {
-    // TODO
-    return false;
+    for (int i = 0; i < N; ++i)
+    {
+        node *cursor = table[i];
+        while (cursor != NULL)
+        {
+            node *tmp = cursor;
+            cursor = cursor->next;
+            free(tmp);
+        }
+    }
+    return true;
 }
