@@ -38,6 +38,7 @@ test:
 	cd pset4/recover && pipenv run check50 --local cs50/problems/2021/x/recover
 	cd pset5/speller && pipenv run check50 --local cs50/problems/2021/x/speller
 	cd pset6/hello && pipenv run check50 --local cs50/problems/2021/x/sentimental/hello
+	cd pset6/mario && pipenv run check50 --local cs50/problems/2021/x/sentimental/mario/more
 
 lint:
 	pipenv run style50 lab1/hello/hello.c
@@ -56,6 +57,7 @@ lint:
 	pipenv run style50 pset4/recover/recover.c
 	pipenv run style50 pset5/speller/dictionary.c
 	pipenv run style50 pset6/hello/hello.py
+	pipenv run style50 pset6/mario/mario.py
 
 ci-test:
 	cd lab1/hello && check50 --local cs50/problems/2021/x/hello
