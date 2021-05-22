@@ -1,0 +1,24 @@
+dist: bionic
+language: python
+python:
+  - '3.9.0'
+sudo: true
+
+branches:
+  only:
+    - main
+
+before_install:
+  - sudo apt install clang
+  - sudo add-apt-repository ppa:cs50/ppa -y
+addons:
+  apt:
+    packages:
+      - cmake
+    update: true
+
+install:
+  - make deps
+
+script:
+  - make ci-test

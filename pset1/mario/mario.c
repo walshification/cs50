@@ -30,6 +30,7 @@ int get_height(void)
     {
         height = get_int("height: ");
     }
+    // Ensure the input is within the proper bounds.
     while (height < 1 || height > 8);
 
     return height;
@@ -45,6 +46,7 @@ int get_height(void)
  */
 void pad_left(int height)
 {
+    // Indent as many spaces as it is high, minus 1.
     for (int i = height - 1; i > 0; i--)
     {
         printf(" ");
@@ -60,6 +62,7 @@ void pad_left(int height)
  */
 void lay_step_bricks(int length)
 {
+    // Drop a brick.
     for (int i = length; i > 0; i--)
     {
         printf("#");
