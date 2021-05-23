@@ -14,7 +14,7 @@ export CFLAGS += -ggdb3 \
 	-lm
 export VPATH = $(wildcard **/**)
 
-CHECK_FLAGS := --local -V --ansi-log
+CHECK_FLAGS := --local --log-level debug
 RUN_CHECK := pipenv run check50
 RUN_STYLE := pipenv run style50
 
