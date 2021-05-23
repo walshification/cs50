@@ -1,24 +1,8 @@
-export CC := clang
-export CFLAGS += -ggdb3 \
-	-O0 \
-	-std=c11 \
-	-Wall \
-	-Werror \
-	-Wextra \
-	-Wno-sign-compare \
-	-Wno-unused-parameter \
-	-Wno-unused-variable \
-	-Wshadow \
-	-lcrypt \
-	-lcs50 \
-	-lm
-export VPATH = $(wildcard **/**)
-
 CHECK_FLAGS := --local
 RUN_CHECK := pipenv run check50
 RUN_STYLE := pipenv run style50
 
-.PHONY = deps test lint all ci-test
+.PHONY = deps test lint all
 
 all: lint test
 
