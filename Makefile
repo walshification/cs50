@@ -28,6 +28,7 @@ test:
 	cd pset6/hello && $(RUN_CHECK) $(CHECK_FLAGS) cs50/problems/2021/x/sentimental/hello
 	cd pset6/mario && $(RUN_CHECK) $(CHECK_FLAGS) cs50/problems/2021/x/sentimental/mario/more
 	cd pset6/credit && $(RUN_CHECK) $(CHECK_FLAGS) cs50/problems/2021/x/sentimental/credit
+	cd pset6/readability && $(RUN_CHECK) $(CHECK_FLAGS) cs50/problems/2021/x/sentimental/readability
 
 lint:
 	$(RUN_STYLE) lab1/hello/hello.c
@@ -48,6 +49,7 @@ lint:
 	$(RUN_STYLE) pset6/hello/hello.py
 	$(RUN_STYLE) pset6/mario/mario.py
 	$(RUN_STYLE) pset6/credit/credit.py
+	$(RUN_STYLE) pset6/readability/readability.py
 
 hello:
 	make lab1/hello/hello
