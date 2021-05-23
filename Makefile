@@ -109,5 +109,14 @@ plurality:
 tideman:
 	make pset3/tideman/tideman
 
+filter:
+	make pset4/filter/filter
+
+recover:
+	make pset4/recover/recover
+
+speller:
+	make pset5/speller/speller
+
 deps:
 	pipenv install --dev
