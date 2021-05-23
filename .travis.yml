@@ -4,6 +4,11 @@ python:
   - '3.9.0'
 sudo: true
 
+env:
+  - CC="clang"
+  - CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow"
+  - LDLIBS="-lcrypt -lcs50 -lm"
+
 branches:
   only:
     - main
@@ -11,6 +16,8 @@ branches:
 before_install:
   - sudo apt install clang
   - sudo add-apt-repository ppa:cs50/ppa -y
+  - curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | sudo bash
+  - sudo apt install libcs50
 addons:
   apt:
     packages:
