@@ -5,9 +5,11 @@ python:
 sudo: true
 
 env:
-  - CC="clang"
-  - CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow"
-  - LDLIBS="-lcrypt -lcs50 -lm"
+  global:
+    - CC="clang"
+    - CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow"
+    - LDLIBS="-lcrypt -lcs50 -lm"
+    - PIPENV_VERBOSITY=-1
 
 branches:
   only:
@@ -28,4 +30,4 @@ install:
   - make deps
 
 script:
-  - make ci-test
+  - make test
