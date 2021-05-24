@@ -31,6 +31,7 @@ test:
 	cd $(CURDIR)/pset6/mario && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/sentimental/mario/more
 	cd $(CURDIR)/pset6/credit && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/sentimental/credit
 	cd $(CURDIR)/pset6/readability && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/sentimental/readability
+	cd $(CURDIR)/pset6/dna && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/dna
 
 lint:
 	$(RUN_STYLE) lab1/hello/hello.c
@@ -52,6 +53,7 @@ lint:
 	$(RUN_STYLE) pset6/mario/mario.py
 	$(RUN_STYLE) pset6/credit/credit.py
 	$(RUN_STYLE) pset6/readability/readability.py
+	$(RUN_STYLE) pset6/dna/dna.py
 
 hello:
 	make lab1/hello/hello
