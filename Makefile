@@ -3,44 +3,47 @@ RUN_CHECK := pipenv run check50
 RUN_STYLE := pipenv run style50
 PROBLEMS := cs50/problems/2021/x
 LABS := cs50/labs/2021/x
+RUN_LAB := $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)
+RUN_PROBLEM := $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)
 
 .PHONY = deps test lint all
 
 all: lint test
 
 test:
-	cd $(CURDIR)/lab1/hello && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/hello
-	cd $(CURDIR)/lab1/population && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/population
-	cd $(CURDIR)/lab2/scrabble && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/scrabble
-	cd $(CURDIR)/lab5 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/inheritance
-	cd $(CURDIR)/lab3 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/sort
-	cd $(CURDIR)/lab4 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/volume
-	cd $(CURDIR)/lab5 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/inheritance
-	cd $(CURDIR)/lab6 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/worldcup
-	cd $(CURDIR)/lab7 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/songs
+	cd $(CURDIR)/lab1/population && $(RUN_LAB)/population
+	cd $(CURDIR)/lab2/scrabble && $(RUN_LAB)/scrabble
+	cd $(CURDIR)/lab5 && $(RUN_LAB)/inheritance
+	cd $(CURDIR)/lab3 && $(RUN_LAB)/sort
+	cd $(CURDIR)/lab4 && $(RUN_LAB)/volume
+	cd $(CURDIR)/lab5 && $(RUN_LAB)/inheritance
+	cd $(CURDIR)/lab6 && $(RUN_LAB)/worldcup
+	cd $(CURDIR)/lab7 && $(RUN_LAB)/songs
 
-	cd $(CURDIR)/pset1/mario && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/mario/more
-	cd $(CURDIR)/pset1/credit && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/credit
-	cd $(CURDIR)/pset2/readability && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/readability
-	cd $(CURDIR)/pset2/substitution && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/substitution
-	cd $(CURDIR)/pset3/plurality && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/plurality
-	cd $(CURDIR)/pset3/tideman && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/tideman
-	cd $(CURDIR)/pset4/filter && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/filter/more
-	cd $(CURDIR)/pset4/recover && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/recover
-	cd $(CURDIR)/pset5/speller && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/speller
-	cd $(CURDIR)/pset6/hello && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/sentimental/hello
-	cd $(CURDIR)/pset6/mario && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/sentimental/mario/more
-	cd $(CURDIR)/pset6/credit && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/sentimental/credit
-	cd $(CURDIR)/pset6/readability && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/sentimental/readability
-	cd $(CURDIR)/pset6/dna && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/dna
+	cd $(CURDIR)/pset1/hello && $(RUN_PROBLEM)/hello
+	cd $(CURDIR)/pset1/mario && $(RUN_PROBLEM)/mario/more
+	cd $(CURDIR)/pset1/credit && $(RUN_PROBLEM)/credit
+	cd $(CURDIR)/pset2/readability && $(RUN_PROBLEM)/readability
+	cd $(CURDIR)/pset2/substitution && $(RUN_PROBLEM)/substitution
+	cd $(CURDIR)/pset3/plurality && $(RUN_PROBLEM)/plurality
+	cd $(CURDIR)/pset3/tideman && $(RUN_PROBLEM)/tideman
+	cd $(CURDIR)/pset4/filter && $(RUN_PROBLEM)/filter/more
+	cd $(CURDIR)/pset4/recover && $(RUN_PROBLEM)/recover
+	cd $(CURDIR)/pset5/speller && $(RUN_PROBLEM)/speller
+	cd $(CURDIR)/pset6/hello && $(RUN_PROBLEM)/sentimental/hello
+	cd $(CURDIR)/pset6/mario && $(RUN_PROBLEM)/sentimental/mario/more
+	cd $(CURDIR)/pset6/credit && $(RUN_PROBLEM)/sentimental/credit
+	cd $(CURDIR)/pset6/readability && $(RUN_PROBLEM)/sentimental/readability
+	cd $(CURDIR)/pset6/dna && $(RUN_PROBLEM)/dna
+	cd $(CURDIR)/pset7/movies && $(RUN_PROBLEM)/movies
 
 lint:
-	$(RUN_STYLE) lab1/hello/hello.c
 	$(RUN_STYLE) lab1/population/population.c
 	$(RUN_STYLE) lab2/scrabble/scrabble.c
 	$(RUN_STYLE) lab4/volume.c
 	$(RUN_STYLE) lab5/inheritance.c
 
+	$(RUN_STYLE) pset1/hello/hello.c
 	$(RUN_STYLE) pset1/mario/mario.c
 	$(RUN_STYLE) pset1/credit/credit.c
 	$(RUN_STYLE) pset2/readability/readability.c
