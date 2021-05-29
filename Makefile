@@ -17,6 +17,7 @@ test:
 	cd $(CURDIR)/lab4 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/volume
 	cd $(CURDIR)/lab5 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/inheritance
 	cd $(CURDIR)/lab6 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/worldcup
+	cd $(CURDIR)/lab7 && $(RUN_CHECK) $(CHECK_FLAGS) $(LABS)/songs
 
 	cd $(CURDIR)/pset1/mario && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/mario/more
 	cd $(CURDIR)/pset1/credit && $(RUN_CHECK) $(CHECK_FLAGS) $(PROBLEMS)/credit
