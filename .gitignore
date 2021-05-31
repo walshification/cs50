@@ -13,3 +13,7 @@
 *.wav
 *.zip
 *.txt
+!answers.txt
+
+# Very large file
+movies.db
