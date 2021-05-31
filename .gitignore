@@ -13,3 +13,4 @@
 *.wav
 *.zip
 *.txt
+!answers.txt

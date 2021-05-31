@@ -36,6 +36,7 @@ test:
 	cd $(CURDIR)/pset6/readability && $(RUN_PROBLEM)/sentimental/readability
 	cd $(CURDIR)/pset6/dna && $(RUN_PROBLEM)/dna
 	cd $(CURDIR)/pset7/movies && $(RUN_PROBLEM)/movies
+	cd $(CURDIR)/pset7/fiftyville && $(RUN_PROBLEM)/fiftyville
 
 lint:
 	$(RUN_STYLE) lab1/population/population.c
