@@ -1,46 +1,49 @@
 body {
-    background-color: #007CED;
-  }
+  background-color: #007CED;
+}
 
-  main {
-    margin: 3%;
-    background-color: #FBFBFB;
-    border-radius: 35px;
-  }
+.frame {
+  margin: 3% auto;
+  background-color: #FBFBFB;
+  border-radius: 35px;
+  max-width: 1320px;
+  padding: 40px 70px 60px;
+  margin-left: 3%;
+  margin-right: 3%;
+}
 
-  h2 {
-    border-bottom: 1px solid #007CED;
-    padding-bottom: 3px;
-    display: inline-block;
-  }
+h2 {
+  border-bottom: 1px solid #007CED;
+  padding-bottom: 3px;
+  display: inline-block;
+}
 
-  #main-content {
-    padding: 40px 70px 60px;
-  }
+#main-content {
+}
 
-  .navbar, .card {
-    background-color: #FBFBFB;
-  }
+.navbar, .card {
+  background-color: #FBFBFB;
+}
 
-  #portrait {
-    background-image: url(https://avatars.githubusercontent.com/u/5120876);
-    width: 300px;
-    height: 300px;
-    background-size: contain;
-    border-radius: 50%;
-    border: 20px solid white;
-    margin: auto;
-  }
+#portrait {
+  background-image: url(https://avatars.githubusercontent.com/u/5120876);
+  width: 300px;
+  height: 300px;
+  background-size: contain;
+  border-radius: 50%;
+  border: 20px solid white;
+  margin: auto;
+}
 
-  .shadow {
-    -moz-box-shadow: 0 0 30px 3px #999;
-    -webkit-box-shadow: 0 0 30px 3px #999;
-  }
+.shadow {
+  -moz-box-shadow: 0 0 30px 3px #999;
+  -webkit-box-shadow: 0 0 30px 3px #999;
+}
 
-  .btn {
-    border-radius: 25px;
-  }
+.btn {
+  border-radius: 25px;
+}
 
-  .skill-icons {
-    color: #007CED;
-  }
+.skill-icons {
+  color: #007CED;
+}
