@@ -23,6 +23,10 @@ $ sudo add-apt-repository ppa:cs50/ppa
 $ sudo apt-get update
 $ sudo apt-get install astyle
 ```
+* `sqlite3` to connect to databases
+```bash
+$ sudo apt install sqlite3
+```
 
 ### MacOSX
 
