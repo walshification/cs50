@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+
+        <script>
+
+            function changeColor(event) {
+                if (event.srcElement.innerHTML != "Palermo")
+                {
+                    event.srcElement.style.backgroundColor = "red";
+                    document.getElementById("answer").innerHTML = "Incorrect";
+                }
+                else
+                {
+                    event.srcElement.style.backgroundColor = "green";
+                    document.getElementById("answer").innerHTML = "Correct!";
+                }
+            }
+
+            function checkAnswer() {
+                const answer = document.getElementById("free");
+                if (confirm(`Is this your final answer? ${answer.value}`))
+                {
+                    if (answer.value != "Roger I")
+                    {
+                        answer.style.backgroundColor = "red";
+                        document.getElementById("validation").innerHTML = "Incorrect";
+                    }
+                    else
+                    {
+                        answer.style.backgroundColor = "green";
+                        document.getElementById("validation").innerHTML = "Correct!";
+                    }
+                }
+            }
+
+        </script>
+
+    </head>
+    <body>
+
+        <div class="jumbotron">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+
+                <h3>Where was the capital of the Kingom of Sicily?</h3>
+                <p id="answer"></p>
+
+                <button onclick="changeColor(event);" id="syracuse">Syracuse</button>
+                <button onclick="changeColor(event);" id="palermo">Palermo</button>
+                <button onclick="changeColor(event);" id="messina">Messina</button>
+                <button onclick="changeColor(event);" id="agrigento">Agrigento</button>
+
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+
+                <h3>Who was the first king of Sicily?</h3>
+                <form onsubmit="checkAnswer(); return false;">
+                    <input id="free" type="text" />
+                    <input type="Submit" />
+                </form>
+                <p id="validation"></p>
+
+            </div>
+
+        </div>
+    </body>
+</html>
