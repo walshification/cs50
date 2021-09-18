@@ -8,17 +8,14 @@ body {
   border-radius: 35px;
   max-width: 1320px;
   padding: 40px 70px 60px;
-  margin-left: 3%;
-  margin-right: 3%;
+  /*margin-left: 3%;*/
+  /*margin-right: 3%;*/
 }
 
 h2 {
   border-bottom: 1px solid #007CED;
   padding-bottom: 3px;
   display: inline-block;
-}
-
-#main-content {
 }
 
 .navbar, .card {
