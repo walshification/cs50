@@ -17,3 +17,5 @@
 
 # Very large file
 movies.db
+
+.env
