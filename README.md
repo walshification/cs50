@@ -6,7 +6,7 @@ Projects and problem sets from Harvard's Introduction to Computer Science (CS50)
 
 Following the [Open Source Society Computer Science curriculum](https://github.com/open-source-society/computer-science).
 
-## Dependencies
+## Installing Dependencies
 ### Ubuntu
 
 * `clang` to compile as the CS50 IDE does
@@ -29,6 +29,18 @@ $ sudo apt install sqlite3
 ```
 
 ### MacOSX
+
+## IEX API Key
+
+To run pset9, you'll need an API key for IEX Cloud Services.
+
+1. Visit iexcloud.io/cloud-login#/register/.
+2. Select the "Individual" account type, then enter your email address and a password, and click "Create account."
+3. Once registered, scroll down to "Get started for free" and click "Select Start" to choose the free plan.
+4. Once you've confirmed your account via a confirmation email, visit https://iexcloud.io/console/tokens.
+5. Copy the key that appears under the Token column (it should begin with pk_).
+6. In the `.env` file, fill in the `API_KEY` variable with your key's value.
+7. Profit.
 
 ## [Problem Set 1](https://github.com/walshification/cs50/tree/master/pset1)
 * [hello](https://github.com/walshification/cs50/tree/master/pset1/hello.c)
