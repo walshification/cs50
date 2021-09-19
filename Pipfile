@@ -10,7 +10,6 @@ cs50 = "~=7.0.2"
 check50 = "~=3.2.2"
 style50 = "~=2.7.5"
 black = "==21.9b0"
-pytest = "~=6.2.5"
 
 [requires]
 python_version = "3.9"
