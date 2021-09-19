@@ -4,12 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-cs50 = "*"
+cs50 = "~=7.0.2"
 
 [dev-packages]
 check50 = "~=3.2.2"
-style50 = "*"
-black = "*"
+style50 = "~=2.7.5"
+black = "==21.9b0"
+pytest = "~=6.2.5"
 
 [requires]
 python_version = "3.9"
