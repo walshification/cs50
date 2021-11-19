@@ -126,7 +126,8 @@ def register():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         # Ensure username was submitted
-        if not request.form.get("username"):
+        username = request.form.get("username")
+        if not username:
             return apology("must provide username", 400)
 
         # Ensure password was submitted
@@ -138,6 +139,18 @@ def register():
         confirmation = request.form.get("confirmation")
         if not confirmation or (password != confirmation):
             return apology("password and confirmation must match", 400)
+
+        # Ensure the username is unique
+        existing_user = db.execute("SELECT * FROM users WHERE username = ?", username)
+        if existing_user:
+            return apology(f"user with username {username} already exists", 400)
+
+        db.execute(
+            "INSERT INTO users (username, hash) VALUES (?, ?)",
+            request.form.get("username"),
+            generate_password_hash(request.form.get("password")),
+        )
+        return redirect("/")
     else:
         return render_template("register.html")
     return apology("")
