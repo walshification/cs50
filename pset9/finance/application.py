@@ -125,7 +125,19 @@ def register():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        pass
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return apology("must provide username", 400)
+
+        # Ensure password was submitted
+        password = request.form.get("password")
+        if not password:
+            return apology("must provide password", 400)
+
+        # Ensure password is confirmed
+        confirmation = request.form.get("confirmation")
+        if not confirmation or (password != confirmation):
+            return apology("password and confirmation must match", 400)
     else:
         return render_template("register.html")
     return apology("")
