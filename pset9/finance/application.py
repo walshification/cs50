@@ -46,7 +46,20 @@ if not os.environ.get("API_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return render_template("index.html")
+    stocks = [
+        {
+            "symbol": "STCK",
+            "name": "Stock",
+            "shares": 6,
+            "price": usd(45.0),
+            "total": usd(6 * 45.0),
+        },
+    ]
+    user = {
+        "cash": usd(1000),
+        "total": usd(1000 + (6 * 45.0)),
+    }
+    return render_template("index.html", stocks=stocks, user=user)
 
 
 @app.route("/buy", methods=["GET", "POST"])
