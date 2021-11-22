@@ -114,7 +114,11 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    return render_template("quote.html")
+    if request.method == "GET":
+        return render_template("quote.html")
+
+    if not request.form.get("symbol"):
+        return apology("missing symbol", 400)
 
 
 @app.route("/register", methods=["GET", "POST"])
