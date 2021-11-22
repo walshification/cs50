@@ -45,3 +45,24 @@ main img
     /* Constrain images on small screens */
     max-width: 100%;
 }
+
+.text-start {
+    text-align: left !important;
+}
+
+.text-end {
+    text-align: right !important;
+}
+
+thead {
+    border-bottom: 2px solid black !important;
+}
+
+tbody {
+    border-top: 2px solid black !important;
+    border-bottom: 2px solid black !important;
+}
+
+.fw-bold {
+    font-weight: bold;
+}
