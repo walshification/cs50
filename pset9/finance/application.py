@@ -120,6 +120,14 @@ def quote():
     if not request.form.get("symbol"):
         return apology("missing symbol", 400)
 
+    stock = lookup(request.form.get("symbol"))
+    return render_template(
+        "quoted.html",
+        symbol=stock["symbol"],
+        name=stock["name"],
+        price=stock["price"],
+    )
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
