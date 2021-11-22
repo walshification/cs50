@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -46,18 +47,31 @@ if not os.environ.get("API_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    stocks = [
-        {
-            "symbol": "STCK",
-            "name": "Stock",
-            "shares": 6,
-            "price": usd(45.0),
-            "total": usd(6 * 45.0),
-        },
-    ]
+    purchases = db.execute(
+        "SELECT * FROM purchases WHERE user_id = ?",
+        session["user_id"],
+    )
+    purchase_total = 0
+    stocks = []
+    for purchase in purchases:
+        stocks.append(
+            {
+                "symbol": purchase["symbol"],
+                "name": purchase["name"],
+                "shares": purchase["shares"],
+                "price": usd(purchase["purchase_price"]),
+                "total": usd(purchase["shares"] * purchase["purchase_price"]),
+            }
+        )
+        purchase_total += purchase["shares"] * purchase["purchase_price"]
+
     user = {
-        "cash": usd(1000),
-        "total": usd(1000 + (6 * 45.0)),
+        "cash": usd(
+            db.execute(
+                "SELECT cash FROM users WHERE id = ?", session["user_id"]
+            )[0]["cash"]
+        ),
+        "total": usd(10000 + purchase_total),
     }
     return render_template("index.html", stocks=stocks, user=user)
 
@@ -66,7 +80,40 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
-    return render_template("buy.html")
+    if request.method == "GET":
+        return render_template("buy.html")
+
+    stock = lookup(request.form.get("symbol"))
+
+    current_cash = db.execute(
+        "SELECT cash FROM users WHERE id = ?", session["user_id"]
+    )[0]["cash"]
+
+    db.execute(
+        """
+            INSERT INTO purchases (
+                symbol,
+                name,
+                user_id,
+                purchase_price,
+                shares,
+                created_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?);
+        """,
+        stock["symbol"],
+        stock["name"],
+        session["user_id"],
+        stock["price"],
+        request.form.get("shares"),
+        datetime.now().timestamp(),
+    )
+    db.execute(
+        "UPDATE users SET cash = ? WHERE id = ?",
+        current_cash - (stock["price"] * int(request.form.get("shares"))),
+        session["user_id"],
+    )
+    return redirect("/")
 
 
 @app.route("/history")
