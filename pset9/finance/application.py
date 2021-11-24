@@ -244,7 +244,11 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    return apology("TODO")
+    stocks = db.execute(
+        "SELECT name, symbol FROM purchases WHERE user_id = ?",
+        session["user_id"],
+    )
+    return render_template("sell.html", stocks=stocks)
 
 
 def errorhandler(e):
