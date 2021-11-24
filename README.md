@@ -26,6 +26,15 @@ $ sudo apt-get install astyle
 
 ### MacOSX
 
+```bash
+$ brew bundle
+```
+
+> **Note** If you are using the new Apple Silicon chips:
+>
+> Homebrew will skip valgrind, as no bottle yet exists for that chip architecture.
+> Valgrind tests will, of course, fail.
+
 ## [Problem Set 1](https://github.com/walshification/cs50/tree/master/pset1)
 * [hello](https://github.com/walshification/cs50/tree/master/pset1/hello.c)
 * [mario](https://github.com/walshification/cs50/tree/master/pset1/mario.c)
