@@ -65,13 +65,13 @@ def index():
         )
         purchase_total += purchase["shares"] * purchase["purchase_price"]
 
+    user_cash = db.execute(
+        "SELECT cash FROM users WHERE id = ?", session["user_id"]
+    )[0]["cash"]
+
     user = {
-        "cash": usd(
-            db.execute(
-                "SELECT cash FROM users WHERE id = ?", session["user_id"]
-            )[0]["cash"]
-        ),
-        "total": usd(10000 + purchase_total),
+        "cash": usd(user_cash),
+        "total": usd(user_cash + purchase_total),
     }
     return render_template("index.html", stocks=stocks, user=user)
 
@@ -84,6 +84,16 @@ def buy():
         return render_template("buy.html")
 
     stock = lookup(request.form.get("symbol"))
+    if stock is None:
+        return apology("invalid symbol", 400)
+
+    try:
+        shares = int(request.form.get("shares"))
+    except ValueError:
+        return apology("shares must be a positive integer", 400)
+
+    if shares < 0:
+        return apology("shares must be a positive integer", 400)
 
     current_cash = db.execute(
         "SELECT cash FROM users WHERE id = ?", session["user_id"]
