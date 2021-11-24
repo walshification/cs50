@@ -236,9 +236,8 @@ def register():
             generate_password_hash(request.form.get("password")),
         )
         return redirect("/")
-    else:
-        return render_template("register.html")
-    return apology("")
+
+    return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
