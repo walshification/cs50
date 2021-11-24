@@ -8,12 +8,14 @@
 # Add filtes that don't have extensions and aren't binaries.
 !Makefile
 !Pipfile
+!Brewfile
 
 .vscode
 *.wav
 *.zip
 *.txt
 !answers.txt
+Brewfile.lock.json
 
 # Very large file
 movies.db

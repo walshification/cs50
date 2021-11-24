@@ -30,7 +30,16 @@ $ sudo apt install sqlite3
 
 ### MacOSX
 
-## IEX API Key
+```bash
+$ brew bundle
+```
+
+> **Note** If you are using the new Apple Silicon chips:
+>
+> Homebrew will skip valgrind, as no bottle yet exists for that chip architecture.
+> Valgrind tests will, of course, fail.
+
+### IEX API Key
 
 To run pset9, you'll need an API key for IEX Cloud Services.
 
