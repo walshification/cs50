@@ -1,3 +1,5 @@
+import re
+
 from helpers import apology
 
 
@@ -12,6 +14,12 @@ def validate_registration(form, db):
     password = form.get("password")
     if not password:
         return apology("must provide password", 400)
+
+    if not re.search(r"[!@#$%^&*)(.,;:'~]+", password):
+        return apology("password must contain at least one special character", 400)
+
+    if not re.search(r"[0-9]+", password):
+        return apology("password must contain at least one number", 400)
 
     # Ensure password is confirmed
     confirmation = form.get("confirmation")
