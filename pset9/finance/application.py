@@ -48,6 +48,7 @@ if not os.environ.get("API_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
+    # Get all the stock symbols this user has boughts
     stock_symbols = [
         stock["symbol"]
         for stock in db.execute(
@@ -55,6 +56,7 @@ def index():
             session["user_id"],
         )
     ]
+    # Collect all their purchases
     purchases = db.execute(
         """
             SELECT symbol, SUM(shares) AS shares
@@ -70,6 +72,7 @@ def index():
     stocks = []
     for symbol in stock_symbols:
         sales_count = 0
+        # Get all the sales this user made of the stock
         sales_rows = db.execute(
             """
                 SELECT SUM(shares) AS shares
@@ -80,10 +83,12 @@ def index():
             session["user_id"],
             symbol,
         )
+        # ensure there are any to subtract
         if sales_rows:
             sales_count = sales_rows[0]["shares"] or 0
 
         share_count = purchase_map[symbol] - sales_count
+        # ensure the user still has some shares
         if share_count > 0:
             stock = lookup(symbol)
             holding_total = stock["price"] * share_count
@@ -96,6 +101,7 @@ def index():
                     "total": holding_total,
                 }
             )
+            # keep track of the running total value
             asset_total += holding_total
 
     user_cash = db.execute(
@@ -126,9 +132,11 @@ def buy():
         "SELECT cash FROM users WHERE id = ?", session["user_id"]
     )[0]["cash"]
 
+    # ensure the user can afford the stocks
     if current_cash < (stock["price"] * int(request.form.get("shares"))):
         return apology("not enough cash for this transaction", 400)
 
+    # log the purchase
     db.execute(
         """
             INSERT INTO purchases (
@@ -148,6 +156,7 @@ def buy():
         request.form.get("shares"),
         datetime.now().timestamp(),
     )
+    # update their cash
     db.execute(
         "UPDATE users SET cash = ? WHERE id = ?",
         current_cash - (stock["price"] * int(request.form.get("shares"))),

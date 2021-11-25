@@ -15,9 +15,11 @@ def validate_registration(form, db):
     if not password:
         return apology("must provide password", 400)
 
+    # ensure special characters are present
     if not re.search(r"[!@#$%^&*)(.,;:'~]+", password):
         return apology("password must contain at least one special character", 400)
 
+    # ensure a number is present
     if not re.search(r"[0-9]+", password):
         return apology("password must contain at least one number", 400)
 
@@ -37,6 +39,7 @@ def validate_quote(form, stock):
     if not form.get("symbol"):
         return apology("missing symbol", 400), stock
 
+    # ensure it's a real stock
     if stock is None:
         return apology("invalid symbol", 400), stock
 
@@ -49,10 +52,14 @@ def validate_buy(form, stock):
         return apology("invalid symbol", 400), stock
 
     try:
+        # This is complicated but the int function cuts through
+        # a lot of sticky issues
         shares = int(form.get("shares"))
     except ValueError:
+        # If we're here, it wasn't a number
         return apology("shares must be a positive integer", 400), stock
 
+    # ensure it's a positive integer
     if shares < 0:
         return apology("shares must be a positive integer", 400), stock
 
@@ -73,6 +80,7 @@ def validate_sale(form, db, session):
     if not symbol:
         return apology("symbol is required", 400)
 
+    # to be safe, we need to check how many shares they have.
     stock = db.execute(
         """
             SELECT
