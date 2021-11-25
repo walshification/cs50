@@ -19,3 +19,5 @@ Brewfile.lock.json
 
 # Very large file
 movies.db
+
+.env
