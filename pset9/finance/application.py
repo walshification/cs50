@@ -47,23 +47,71 @@ if not os.environ.get("API_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
+    stock_symbols = [
+        stock["symbol"]
+        for stock in db.execute(
+            "SELECT DISTINCT symbol FROM purchases WHERE user_id = ?",
+            session["user_id"],
+        )
+    ]
     purchases = db.execute(
-        "SELECT * FROM purchases WHERE user_id = ?",
+        """
+            SELECT symbol, name, SUM(shares) AS shares, SUM(purchase_price) AS price
+            FROM purchases
+            WHERE user_id = ?
+            GROUP BY symbol;
+        """,
         session["user_id"],
     )
-    purchase_total = 0
+
+    purchase_map = {
+        purchase["symbol"]: {
+            "name": purchase["name"],
+            "shares": purchase["shares"],
+            "price": purchase["price"]
+        }
+        for purchase in purchases
+    }
+
+    sales = db.execute(
+        """
+            SELECT symbol, name, SUM(shares) AS shares, SUM(price) AS price
+            FROM sales
+            WHERE user_id = ?
+            GROUP BY symbol;
+        """,
+        session["user_id"],
+    )
+    sale_map = {
+        sale["symbol"]: {
+            "name": sale["name"],
+            "shares": sale["shares"],
+            "price": sale["price"]
+        }
+        for sale in sales
+    }
+
+    asset_total = 0
     stocks = []
-    for purchase in purchases:
-        stocks.append(
-            {
-                "symbol": purchase["symbol"],
-                "name": purchase["name"],
-                "shares": purchase["shares"],
-                "price": usd(purchase["purchase_price"]),
-                "total": usd(purchase["shares"] * purchase["purchase_price"]),
-            }
+    for symbol in stock_symbols:
+        share_count = (
+            purchase_map[symbol]["shares"] - (
+                sale_map.get(symbol, {}).get("shares") or 0
+            )
         )
-        purchase_total += purchase["shares"] * purchase["purchase_price"]
+        if share_count > 0:
+            purchase_total = purchase_map[symbol]["price"] * share_count
+            stock = lookup(symbol)
+            stocks.append(
+                {
+                    "symbol": symbol,
+                    "name": stock["name"],
+                    "price": usd(stock["price"]),
+                    "shares": share_count,
+                    "total": usd(purchase_total),
+                }
+            )
+            asset_total += purchase_total
 
     user_cash = db.execute(
         "SELECT cash FROM users WHERE id = ?", session["user_id"]
@@ -71,7 +119,7 @@ def index():
 
     user = {
         "cash": usd(user_cash),
-        "total": usd(user_cash + purchase_total),
+        "total": usd(user_cash + asset_total),
     }
     return render_template("index.html", stocks=stocks, user=user)
 
@@ -244,11 +292,69 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    stocks = db.execute(
-        "SELECT name, symbol FROM purchases WHERE user_id = ?",
+    if request.method == "GET":
+        stocks = db.execute(
+            "SELECT name, symbol FROM purchases WHERE user_id = ?",
+            session["user_id"],
+        )
+        return render_template("sell.html", stocks=stocks)
+
+    try:
+        shares = int(request.form.get("shares"))
+    except ValueError:
+        return apology("shares must be a positive integer", 400)
+
+    if not shares:
+        return apology("must include shares", 400)
+
+    symbol = request.form.get("symbol")
+    if not symbol:
+        return apology("symbol is required", 400)
+
+    stock = db.execute(
+        """
+            SELECT
+                symbol,
+                shares
+            FROM purchases
+            WHERE user_id = ?
+            AND symbol = ?
+        """,
+        session["user_id"],
+        request.form.get("symbol"),
+    )[0]
+    if shares > stock["shares"]:
+        return apology("shares can't exceed purchased amount", 400)
+
+    current_stock = lookup(stock["symbol"])
+    db.execute(
+        """
+            INSERT INTO sales (
+                symbol,
+                name,
+                user_id,
+                price,
+                shares,
+                created_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?);
+        """,
+        current_stock["symbol"],
+        current_stock["name"],
+        session["user_id"],
+        current_stock["price"],
+        request.form.get("shares"),
+        datetime.now().timestamp(),
+    )
+    current_cash = db.execute(
+        "SELECT cash FROM users WHERE id = ?", session["user_id"]
+    )[0]["cash"]
+    db.execute(
+        "UPDATE users SET cash = ? WHERE id = ?",
+        current_cash + (current_stock["price"] * shares),
         session["user_id"],
     )
-    return render_template("sell.html", stocks=stocks)
+    return redirect("/")
 
 
 def errorhandler(e):
