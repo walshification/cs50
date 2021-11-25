@@ -183,7 +183,9 @@ def history():
             "symbol": transaction["symbol"],
             "shares": transaction["shares"],
             "price": transaction["price"],
-            "total": transaction["shares"] * transaction["price"],
+            "transacted": datetime.fromtimestamp(
+                transaction["created_at"]
+            ).strftime("%Y-%m-%d %H:%M:%S"),
         }
         for transaction in transactions
     ]

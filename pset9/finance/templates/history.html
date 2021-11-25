@@ -20,7 +20,7 @@
                     <td class="text-start">{{ stock["symbol"] }}</td>
                     <td class="text-end">{{ stock["shares"] }}</td>
                     <td class="text-end">{{ stock["price"] | usd }}</td>
-                    <td class="text-end">{{ stock["total"] | usd }}</td>
+                    <td class="text-end">{{ stock["transacted"] }}</td>
                 </tr>
             {% endfor %}
         </tbody>
