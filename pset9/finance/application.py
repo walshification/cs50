@@ -311,34 +311,12 @@ def sell():
         )
         return render_template("sell.html", stocks=stocks)
 
-    try:
-        shares = int(request.form.get("shares"))
-    except ValueError:
-        return apology("shares must be a positive integer", 400)
+    error = validations.validate_sale(request.form, db, session)
+    if error:
+        return error
 
-    if not shares:
-        return apology("must include shares", 400)
-
-    symbol = request.form.get("symbol")
-    if not symbol:
-        return apology("symbol is required", 400)
-
-    stock = db.execute(
-        """
-            SELECT
-                symbol,
-                shares
-            FROM purchases
-            WHERE user_id = ?
-            AND symbol = ?
-        """,
-        session["user_id"],
-        request.form.get("symbol"),
-    )[0]
-    if shares > stock["shares"]:
-        return apology("shares can't exceed purchased amount", 400)
-
-    current_stock = lookup(stock["symbol"])
+    current_stock = lookup(request.form["symbol"])
+    shares = int(request.form["shares"])
     db.execute(
         """
             INSERT INTO sales (
@@ -355,7 +333,7 @@ def sell():
         current_stock["name"],
         session["user_id"],
         current_stock["price"],
-        request.form.get("shares"),
+        shares,
         datetime.now().timestamp(),
     )
     current_cash = db.execute(

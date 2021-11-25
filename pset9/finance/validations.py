@@ -22,3 +22,33 @@ def validate_registration(form, db):
     existing_user = db.execute("SELECT * FROM users WHERE username = ?", username)
     if existing_user:
         return apology(f"user with username {username} already exists", 400)
+
+
+def validate_sale(form, db, session):
+    """Validate the arguments of a sell form."""
+    try:
+        shares = int(form.get("shares"))
+    except ValueError:
+        return apology("shares must be a positive integer", 400)
+
+    if not shares:
+        return apology("must include shares", 400)
+
+    symbol = form.get("symbol")
+    if not symbol:
+        return apology("symbol is required", 400)
+
+    stock = db.execute(
+        """
+            SELECT
+                symbol,
+                shares
+            FROM purchases
+            WHERE user_id = ?
+            AND symbol = ?
+        """,
+        session["user_id"],
+        form.get("symbol"),
+    )[0]
+    if shares > stock["shares"]:
+        return apology("shares can't exceed purchased amount", 400)
