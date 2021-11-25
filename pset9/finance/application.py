@@ -142,6 +142,9 @@ def buy():
         "SELECT cash FROM users WHERE id = ?", session["user_id"]
     )[0]["cash"]
 
+    if current_cash < (stock["price"] * int(request.form.get("shares"))):
+        return apology("not enough cash for this transaction", 400)
+
     db.execute(
         """
             INSERT INTO purchases (
