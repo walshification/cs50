@@ -132,17 +132,11 @@ def buy():
     if request.method == "GET":
         return render_template("buy.html")
 
-    stock = lookup(request.form.get("symbol"))
-    if stock is None:
-        return apology("invalid symbol", 400)
-
-    try:
-        shares = int(request.form.get("shares"))
-    except ValueError:
-        return apology("shares must be a positive integer", 400)
-
-    if shares < 0:
-        return apology("shares must be a positive integer", 400)
+    error, stock = validations.validate_buy(
+        request.form, lookup(request.form.get("symbol"))
+    )
+    if error:
+        return error
 
     current_cash = db.execute(
         "SELECT cash FROM users WHERE id = ?", session["user_id"]

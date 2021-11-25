@@ -35,6 +35,22 @@ def validate_quote(form, stock):
     return None, stock
 
 
+def validate_buy(form, stock):
+    """Validate the arguments of a buy form."""
+    if stock is None:
+        return apology("invalid symbol", 400), stock
+
+    try:
+        shares = int(form.get("shares"))
+    except ValueError:
+        return apology("shares must be a positive integer", 400), stock
+
+    if shares < 0:
+        return apology("shares must be a positive integer", 400), stock
+
+    return None, stock
+
+
 def validate_sale(form, db, session):
     """Validate the arguments of a sell form."""
     try:
