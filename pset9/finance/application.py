@@ -57,62 +57,46 @@ def index():
     ]
     purchases = db.execute(
         """
-            SELECT symbol, name, SUM(shares) AS shares, SUM(purchase_price) AS price
+            SELECT symbol, SUM(shares) AS shares
             FROM purchases
             WHERE user_id = ?
             GROUP BY symbol;
         """,
         session["user_id"],
     )
-
-    purchase_map = {
-        purchase["symbol"]: {
-            "name": purchase["name"],
-            "shares": purchase["shares"],
-            "price": purchase["price"]
-        }
-        for purchase in purchases
-    }
-
-    sales = db.execute(
-        """
-            SELECT symbol, name, SUM(shares) AS shares, SUM(price) AS price
-            FROM sales
-            WHERE user_id = ?
-            GROUP BY symbol;
-        """,
-        session["user_id"],
-    )
-    sale_map = {
-        sale["symbol"]: {
-            "name": sale["name"],
-            "shares": sale["shares"],
-            "price": sale["price"]
-        }
-        for sale in sales
-    }
+    purchase_map = {purchase["symbol"]: purchase["shares"] for purchase in purchases}
 
     asset_total = 0
     stocks = []
     for symbol in stock_symbols:
-        share_count = (
-            purchase_map[symbol]["shares"] - (
-                sale_map.get(symbol, {}).get("shares") or 0
-            )
+        sales_count = 0
+        sales_rows = db.execute(
+            """
+                SELECT SUM(shares) AS shares
+                FROM sales
+                WHERE user_id = ?
+                AND symbol = ?;
+            """,
+            session["user_id"],
+            symbol,
         )
+        if sales_rows:
+            sales_count = sales_rows[0]["shares"] or 0
+
+        share_count = purchase_map[symbol] - sales_count
         if share_count > 0:
-            purchase_total = purchase_map[symbol]["price"] * share_count
             stock = lookup(symbol)
+            holding_total = stock["price"] * share_count
             stocks.append(
                 {
                     "symbol": symbol,
                     "name": stock["name"],
                     "price": stock["price"],
                     "shares": share_count,
-                    "total": purchase_total,
+                    "total": holding_total,
                 }
             )
-            asset_total += purchase_total
+            asset_total += holding_total
 
     user_cash = db.execute(
         "SELECT cash FROM users WHERE id = ?", session["user_id"]
@@ -323,8 +307,9 @@ def sell():
         stocks = [
             {"symbol": purchase["symbol"], "name": purchase["name"]}
             for purchase in purchases
-            if purchase["shares"] - sales_map[purchase["symbol"]] > 0
+            if (purchase["shares"] - sales_map.get(purchase["symbol"], 0)) > 0
         ]
+
         return render_template("sell.html", stocks=stocks)
 
     error = validations.validate_sale(request.form, db, session)
