@@ -24,6 +24,17 @@ def validate_registration(form, db):
         return apology(f"user with username {username} already exists", 400)
 
 
+def validate_quote(form, stock):
+    """Validate the arguments of a quote form."""
+    if not form.get("symbol"):
+        return apology("missing symbol", 400), stock
+
+    if stock is None:
+        return apology("invalid symbol", 400), stock
+
+    return None, stock
+
+
 def validate_sale(form, db, session):
     """Validate the arguments of a sell form."""
     try:

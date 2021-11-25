@@ -263,12 +263,11 @@ def quote():
     if request.method == "GET":
         return render_template("quote.html")
 
-    if not request.form.get("symbol"):
-        return apology("missing symbol", 400)
-
-    stock = lookup(request.form.get("symbol"))
-    if stock is None:
-        return apology("invalid symbol", 400)
+    error, stock = validations.validate_quote(
+        request.form, lookup(request.form.get("symbol"))
+    )
+    if error:
+        return error
 
     return render_template(
         "quoted.html",
