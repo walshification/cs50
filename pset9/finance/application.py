@@ -8,6 +8,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
+import validations
 from helpers import apology, login_required, lookup, usd
 
 # Configure application
@@ -285,25 +286,9 @@ def register():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        # Ensure username was submitted
-        username = request.form.get("username")
-        if not username:
-            return apology("must provide username", 400)
-
-        # Ensure password was submitted
-        password = request.form.get("password")
-        if not password:
-            return apology("must provide password", 400)
-
-        # Ensure password is confirmed
-        confirmation = request.form.get("confirmation")
-        if not confirmation or (password != confirmation):
-            return apology("password and confirmation must match", 400)
-
-        # Ensure the username is unique
-        existing_user = db.execute("SELECT * FROM users WHERE username = ?", username)
-        if existing_user:
-            return apology(f"user with username {username} already exists", 400)
+        error = validations.validate_registration(request.form, db)
+        if error:
+            return error
 
         db.execute(
             "INSERT INTO users (username, hash) VALUES (?, ?)",
