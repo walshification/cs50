@@ -21,19 +21,19 @@
                     <td class="text-start">{{ stock["symbol"] }}</td>
                     <td class="text-start">{{ stock["name"] }}</td>
                     <td class="text-end">{{ stock["shares"] }}</td>
-                    <td class="text-end">{{ stock["price"] }}</td>
-                    <td class="text-end">{{ stock["total"] }}</td>
+                    <td class="text-end">{{ stock["price"] | usd }}</td>
+                    <td class="text-end">{{ stock["total"] | usd }}</td>
                 </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
                 <td class="text-end border-0 fw-bold" colspan="4">Cash</td>
-                <td class="text-end border-0">{{ user["cash"] }}</td>
+                <td class="text-end border-0">{{ user["cash"] | usd }}</td>
             </tr>
             <tr>
                 <td class="text-end fw-bold border-0" colspan="4">TOTAL</td>
-                <td class="text-end border-0">{{ user["total"] }}</td>
+                <td class="text-end border-0">{{ user["total"] | usd }}</td>
             </tr>
         </tfoot>
     </table>

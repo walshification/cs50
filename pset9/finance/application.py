@@ -106,9 +106,9 @@ def index():
                 {
                     "symbol": symbol,
                     "name": stock["name"],
-                    "price": usd(stock["price"]),
+                    "price": stock["price"],
                     "shares": share_count,
-                    "total": usd(purchase_total),
+                    "total": purchase_total,
                 }
             )
             asset_total += purchase_total
@@ -118,8 +118,8 @@ def index():
     )[0]["cash"]
 
     user = {
-        "cash": usd(user_cash),
-        "total": usd(user_cash + asset_total),
+        "cash": user_cash,
+        "total": user_cash + asset_total,
     }
     return render_template("index.html", stocks=stocks, user=user)
 
@@ -246,7 +246,7 @@ def quote():
         "quoted.html",
         symbol=stock["symbol"],
         name=stock["name"],
-        price=usd(stock["price"]),
+        price=stock["price"],
     )
 
 
