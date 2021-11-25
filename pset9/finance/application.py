@@ -301,10 +301,30 @@ def register():
 def sell():
     """Sell shares of stock"""
     if request.method == "GET":
-        stocks = db.execute(
-            "SELECT name, symbol FROM purchases WHERE user_id = ?",
+        purchases = db.execute(
+            """
+                SELECT symbol, name, SUM(shares) AS shares
+                FROM purchases
+                WHERE user_id = ?
+                GROUP BY symbol;
+            """,
             session["user_id"],
         )
+        sales = db.execute(
+            """
+                SELECT symbol, SUM(shares) AS shares
+                FROM sales
+                WHERE user_id = ?
+                GROUP BY symbol;
+            """,
+            session["user_id"],
+        )
+        sales_map = {sale["symbol"]: sale["shares"] for sale in sales}
+        stocks = [
+            {"symbol": purchase["symbol"], "name": purchase["name"]}
+            for purchase in purchases
+            if purchase["shares"] - sales_map[purchase["symbol"]] > 0
+        ]
         return render_template("sell.html", stocks=stocks)
 
     error = validations.validate_sale(request.form, db, session)
