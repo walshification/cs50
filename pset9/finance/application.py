@@ -292,7 +292,8 @@ def sell():
                 SELECT symbol, name, SUM(shares) AS shares
                 FROM purchases
                 WHERE user_id = ?
-                GROUP BY symbol;
+                GROUP BY symbol
+                ORDER BY name;
             """,
             session["user_id"],
         )
