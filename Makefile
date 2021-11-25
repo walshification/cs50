@@ -37,6 +37,7 @@ test:
 	cd $(CURDIR)/pset6/dna && $(RUN_PROBLEM)/dna
 	cd $(CURDIR)/pset7/movies && $(RUN_PROBLEM)/movies
 	cd $(CURDIR)/pset7/fiftyville && $(RUN_PROBLEM)/fiftyville
+	cd $(CURDIR)/pset9/finance && $(RUN_PROBLEM)/finance
 
 lint:
 	$(RUN_STYLE) lab1/population/population.c
@@ -59,6 +60,7 @@ lint:
 	$(RUN_STYLE) pset6/credit/credit.py
 	$(RUN_STYLE) pset6/readability/readability.py
 	$(RUN_STYLE) pset6/dna/dna.py
+	$(RUN_STYLE) pset9/finance/*.py
 
 hello:
 	make lab1/hello/hello
